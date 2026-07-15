@@ -74,18 +74,22 @@
    $reset = *reset;
 
    // Hook replicated slots (/slot[X]) to custom instruments (/instrumentX).
+   // TODO: `BOGUS_USE($bogus)` guarantees at least one signal is pulled through $ANY,
+   //       even for instruments that consume no slot inputs (e.g. empty slots),
+   //       avoiding a NO-ASSIGN error on the $ANY connection. This requirement will
+   //       be eliminated, at which point $bogus can be dropped.
    /instrument1
       $ANY = /top/moku_go/slot[1]$ANY;
-      `BOGUS_USE($in_a)
+      `BOGUS_USE($bogus)
    /instrument2
       $ANY = /top/moku_go/slot[2]$ANY;
-      `BOGUS_USE($in_a)
+      `BOGUS_USE($bogus)
    /instrument3
       $ANY = /top/moku_go/slot[3]$ANY;
-      `BOGUS_USE($in_a)
+      `BOGUS_USE($bogus)
    /instrument4
       $ANY = /top/moku_go/slot[4]$ANY;
-      `BOGUS_USE($in_a)
+      `BOGUS_USE($bogus)
 
    // Combine connections for buses 1 & 2 into 16 bit values for easier elaboration-time manipulation.
    m4_def(from_bus, #_from_bus1['']#_from_bus2)
@@ -119,6 +123,9 @@
             where: {left: -30, top: 0},
       /slot[4:1]
          $reset = /_top$reset;
+         // Dummy signal, pulled through each instrument's $ANY connection so that
+         // instruments consuming no slot inputs still assign $ANY (avoids NO-ASSIGN).
+         $bogus = 1'b0;
          
          // Connect slot inputs.
          $in_a[15:0] = m4_bus_connection(0, 0, 1) ? /moku_go/bus[1]$value :

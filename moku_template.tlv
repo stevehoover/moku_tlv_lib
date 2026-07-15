@@ -10,7 +10,7 @@
    // out, because library includes are processed by M4 even inside "//" comments.
    // Once your changes are pushed, pin the URL to a commit SHA for reproducibility
    // (.../moku_tlv_lib/<commit-sha>/moku_lib.tlv).
-   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/moku_tlv_lib/refs/heads/main/moku_lib.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/moku_tlv_lib/25bed43/moku_lib.tlv'])
 
    // Sort-example visualization used below.
    m4_def(examples, ['['https://raw.githubusercontent.com/stevehoover/makerchip_examples/44557dbd6527de0c4c5ff60835bff37939cb24dd']'])
@@ -41,8 +41,7 @@
    /instrument4
       m4+const_instrument(a, 0)
       m4+const_instrument(b, 0)
-   
-   m4+sort_example(/sort, ['left:335, top:100, width:30, height:70'])
+      m4+sort_example(/sort, ['left:335, top:100, width:30, height:70'])
    
    // Assert these to end simulation (before Makerchip cycle limit).
    *passed = *cyc_cnt > 40;
